@@ -1,7 +1,9 @@
-export default function Home() {
+import LandingPageWrapper from "@/components/landing/LandingPageWrapper";
+
+export default function Page() {
   return (
-    <>
-      무빙
-    </>
+    <main>
+      <LandingPageWrapper />
+    </main>
   );
 }
