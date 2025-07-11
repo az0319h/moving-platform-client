@@ -1,5 +1,7 @@
 // components/DriverList.jsx
 import DriverCard from './DriverCard';
+import MoverProfileClient from '@/components/my-quotes/common/MoverProfileClient';
+
 
 export default function DriverList() {
   return (
