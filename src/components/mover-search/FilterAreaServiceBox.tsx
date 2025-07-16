@@ -33,7 +33,7 @@ export default function FilterAreaServiceBox({
 
   return (
     <div className="flex flex-row lg:flex-col w-full lg:w-80 mb-1">
-        <div className="flex flex-row justify-between items-center mb-6 px-3 pb-4 border-b border-b-gray-100">
+        <div className="hidden lg:flex flex-row justify-between items-center mb-6 px-3 pb-4 border-b border-b-gray-100">
             <h2 className="text-20-medium font-semibold">필터</h2>
             <p 
               className="text-gray-300 cursor-pointer hover:text-gray-500 transition-colors"

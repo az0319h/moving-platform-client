@@ -12,7 +12,7 @@ type MoverProfileProps = {
   big?: boolean;
   isLiked?: boolean;
   forceMobileStyle?: boolean;
-  handleLikedClick: () => void;
+  handleLikedClick: (e: React.MouseEvent) => void;
   nickName: string;
   favoriteCount: number;
   averageReviewRating: number;
@@ -78,7 +78,7 @@ export default function MoverProfile({
             {nickName} 기사님
           </span>
           <div className="flex items-center">
-            <button onClick={handleLikedClick}>
+            <button onClick={(e) => handleLikedClick(e)}>
               <Image
                 src={isLiked ? heart : inActiveHeart}
                 width={24}

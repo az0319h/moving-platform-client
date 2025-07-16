@@ -73,9 +73,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    }, []);
 
    useEffect(() => {
-      if (user) return;
-      refreshUser();
-   }, [user, refreshUser]);
+    if (!user) refreshUser();
+  }, [user, refreshUser]);
+   
 
    const value = useMemo<AuthContextType>(
       () => ({
