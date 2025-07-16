@@ -1,7 +1,10 @@
-// components/FilterAreaServiceBox.tsx
-import Dropdown, { DropdownOption } from "./Dropdown";
+// components/mover-search/FilterAreaServiceBox.tsx
+'use client';
 
-interface Props {
+import { useMover } from '@/context/MoverContext';
+import Dropdown, { DropdownOption } from './Dropdown';
+
+interface FilterAreaServiceBoxProps {
   areaOptions: DropdownOption[];
   serviceOptions: DropdownOption[];
   onSelect: (type: string, option: DropdownOption) => void;
@@ -11,40 +14,60 @@ export default function FilterAreaServiceBox({
   areaOptions,
   serviceOptions,
   onSelect,
-}: Props) {
-  return (
-    <>
-      <div className="hidden lg:block">
-        <div className="flex flex-row justify-between items-center
-        mb-6 px-3 pb-4 border-b border-b-gray-100">
-          <h2 className="text-20-medium font-semibold">필터</h2>
-          <p className="text-gray-300 cursor-pointer">초기화</p>
-        </div>
-      </div>
+}: FilterAreaServiceBoxProps) {
+  const { state, setFilters, resetFilters } = useMover();
 
-      <div className="flex flex-row lg:flex-col w-full lg:w-80 mb-1">
-        <div className="mr-3 lg:mb-5">
-          <label className="hidden lg:block text-lg font-semibold mb-4">
+  const handleAreaSelect = (option: DropdownOption) => {
+    setFilters({ area: option.value });
+    onSelect('area', option);
+  };
+
+  const handleServiceSelect = (option: DropdownOption) => {
+    setFilters({ serviceType: option.value });
+    onSelect('serviceType', option);
+  };
+
+  const handleReset = () => {
+    resetFilters();
+  };
+
+  return (
+    <div className="flex flex-row lg:flex-col w-full lg:w-80 mb-1">
+        <div className="flex flex-row justify-between items-center mb-6 px-3 pb-4 border-b border-b-gray-100">
+            <h2 className="text-20-medium font-semibold">필터</h2>
+            <p 
+              className="text-gray-300 cursor-pointer hover:text-gray-500 transition-colors"
+              onClick={handleReset}
+            >
+              초기화
+            </p>
+        </div>
+        
+        <div className="lg:mr-0 mr-2">
+          <h3 className="hidden lg:block text-lg font-semibold mb-4">
             지역을 선택해주세요
-          </label>
+          </h3>
           <Dropdown
-            label="지역"
+            label="전체"
             options={areaOptions}
-            onSelect={(option) => onSelect("지역", option)}
-            multiColumn
+            onSelect={handleAreaSelect}
+            multiColumn={true}
+            value={state.filters.area}
           />
         </div>
-        <div>
-          <label className="hidden lg:block text-lg font-semibold mb-4">
+
+        <div className='lg:mt-6'>
+          <h3 className="hidden lg:block text-lg font-semibold mb-4">
             어떤 서비스가 필요하세요?
-          </label>
+          </h3>
           <Dropdown
-            label="서비스"
+            label="전체"
             options={serviceOptions}
-            onSelect={(option) => onSelect("서비스", option)}
+            onSelect={handleServiceSelect}
+            multiColumn={false}
+            value={state.filters.serviceType}
           />
         </div>
       </div>
-    </>
   );
 }

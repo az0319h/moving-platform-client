@@ -1,5 +1,7 @@
+// components/mover-search/SortDropdown.tsx
 "use client";
 
+import { useMover } from '@/context/MoverContext';
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import chevronDownIcon from "@/assets/images/chevronDownIcon.svg";
@@ -17,15 +19,26 @@ const sortOptions: DropdownOption[] = [
 ];
 
 export default function SortDropdown() {
+  const { state, setFilters } = useMover();
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<DropdownOption>(sortOptions[0]);
+  const [selected, setSelected] = useState<DropdownOption>(
+    sortOptions.find(option => option.value === state.filters.sortBy) || sortOptions[0]
+  );
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleSelect = (option: DropdownOption) => {
     setSelected(option);
     setIsOpen(false);
-    console.log("정렬 선택됨:", option);
+    setFilters({ sortBy: option.value });
   };
+
+  // 필터 상태 변경 시 선택된 옵션 업데이트
+  useEffect(() => {
+    const currentOption = sortOptions.find(option => option.value === state.filters.sortBy);
+    if (currentOption) {
+      setSelected(currentOption);
+    }
+  }, [state.filters.sortBy]);
 
   // 외부 클릭 시 닫기
   useEffect(() => {
@@ -54,7 +67,9 @@ export default function SortDropdown() {
             <div
               key={option.value}
               onClick={() => handleSelect(option)}
-              className="w-full h-8 lg:h-10 px-3 flex items-center cursor-pointer hover:bg-gray-100 text-12-medium lg:text-14-medium"
+              className={`w-full h-8 lg:h-10 px-3 flex items-center cursor-pointer hover:bg-gray-100 text-12-medium lg:text-14-medium ${
+                selected.value === option.value ? 'bg-primary-blue-50 text-primary-blue-300' : ''
+              }`}
             >
               {option.label}
             </div>

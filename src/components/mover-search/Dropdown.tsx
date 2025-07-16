@@ -15,12 +15,23 @@ interface DropdownProps {
   options: DropdownOption[];
   onSelect?: (option: DropdownOption) => void;
   multiColumn?: boolean;
+  value?: string; // 외부에서 제어할 수 있는 value prop 추가
 }
 
-export default function Dropdown({ label, options, onSelect, multiColumn }: DropdownProps) {
+export default function Dropdown({ label, options, onSelect, multiColumn, value }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(label);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // value prop이 변경되면 선택된 값 업데이트
+  useEffect(() => {
+    if (value !== undefined) {
+      const option = options.find(opt => opt.value === value);
+      if (option) {
+        setSelected(option.label);
+      }
+    }
+  }, [value, options]);
 
   const handleSelect = (option: DropdownOption) => {
     setSelected(option.label);

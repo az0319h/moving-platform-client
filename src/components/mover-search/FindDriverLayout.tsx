@@ -1,3 +1,4 @@
+// components/FindDriverLayout.tsx
 'use client';
 
 import DriverList from './DriverList';
@@ -6,6 +7,7 @@ import FilterAreaServiceBox from './FilterAreaServiceBox';
 import SearchBar from './SearchBar';
 import { DropdownOption } from './Dropdown';
 import FavoriteDriverList from "./FavoriteDriverList";
+import { MoverProvider } from '@/context/MoverContext';
 
 const areaOptions: DropdownOption[] = [
   { label: "전체", value: "all" },
@@ -41,8 +43,9 @@ export default function FindDriverLayout() {
   };
 
   return (
-      <div className="min-h-screen pt-6 pb-10 min-w-full md:max-w-3xl lg:max-w-6xl mx-auto">
-        <div className="flex flex-col items-center lg:flex-row lg:gap-32">
+    <MoverProvider>
+      <div className="min-h-screen pt-6 pb-10 min-w-full md:max-w-3xl lg:max-w-6xl mx-auto flex justify-center">
+        <div className="flex flex-col lg:flex-row lg:gap-32">
           {/* PC 사이즈 - 왼쪽 사이드바 */}
           <div className="hidden lg:block w-80 shrink-0">
             <FilterAreaServiceBox
@@ -54,7 +57,7 @@ export default function FindDriverLayout() {
           </div>
 
           {/* Content Section */}
-          <div className="flex-1 w-80 md:w-[36rem] lg:w-full box-border">
+          <div className="flex-1 w-80 md:w-[36rem] lg:w-[60rem] box-border">
             <div className="w-full flex flex-row justify-between">
               {/* 모바일 & 중간 사이즈 - 필터 상단에 노출 */}
               <div className="block lg:hidden mb-4">
@@ -78,5 +81,6 @@ export default function FindDriverLayout() {
           </div>
         </div>
       </div>
+    </MoverProvider>
   );
 }

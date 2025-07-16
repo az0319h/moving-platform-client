@@ -1,4 +1,4 @@
-export interface MoverProfile {
+export interface Mover {
   id: string;
   profileImage?: string;
   nickName: string;
@@ -7,8 +7,10 @@ export interface MoverProfile {
   reviewCount: number;
   career: number;
   estimateCount: number;
-  //serviceType: MoveType[];
+  serviceType: MoveType[];
   region: string[];
   description: string;
   isFavorite?: boolean;
 }
+
+export type MoveType = 'SMALL' | 'HOME' | 'OFFICE';
