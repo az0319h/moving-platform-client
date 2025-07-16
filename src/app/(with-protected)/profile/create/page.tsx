@@ -1,19 +1,13 @@
 "use client";
 
-import MoverProfileForm from "@/components/profile/MoverProfileForm";
+import MoverProfileForm from "@/components/profile/MoverProfileForms";
 import { useAuth } from "@/context/AuthContext";
-import React from "react";
 
 export default function CreateProfilePage() {
    const { user } = useAuth();
 
-   //일반으로 로그인한 회원의 경우
-   if (user?.userType === "client") {
-      return <></>;
-   }
-
    //기사님으로 로그인한 회원의 경우
-   if (user?.userType === "mover") {
+   if (user!.userType === "mover") {
       return (
          <>
             <div className="mb-6 flex flex-col gap-4 lg:mb-12 lg:gap-8">
@@ -32,4 +26,11 @@ export default function CreateProfilePage() {
          </>
       );
    }
+
+   // 그외 예상치 못한 userType
+   return (
+      <div className="mt-20 text-center text-gray-500">
+         알 수 없는 사용자 유형입니다.
+      </div>
+   );
 }
