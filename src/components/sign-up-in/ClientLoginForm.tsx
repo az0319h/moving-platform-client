@@ -62,7 +62,7 @@ export default function ClientLoginForm() {
          } else {
             router.replace("/mover-search");
          }
-      }, 0);
+      }, 100);
    }, [formState, login, router]);
 
    // 본문
