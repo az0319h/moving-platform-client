@@ -5,16 +5,16 @@ import AuthInput from "./AuthInput";
 import PasswordInput from "./PasswordInput";
 import SolidButton from "../common/buttons/SolidButton";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { validateAuthEmail, validateAuthPassword } from "@/lib/validations";
 import createClientLocalLoginAction from "@/lib/actions/auth/create-client-local-login.action";
 import { Client } from "@/lib/types";
+import { useRouter } from "next/navigation";
 
 export default function ClientLoginForm() {
    // 상태 모음
-   const router = useRouter();
    const { login } = useAuth();
+   const router = useRouter();
 
    const [formState, formAction, isPending] = useActionState(
       createClientLocalLoginAction,
@@ -55,15 +55,14 @@ export default function ClientLoginForm() {
       const rawUser = formState.user as Client;
       login(rawUser, formState.accessToken);
 
-      // 3. useEffect 때문에 순서 밀리고 mover-search로 가지 않게 setTimeOut 설정
-      setTimeout(() => {
-         if (!rawUser.isProfileCompleted) {
-            router.replace("/profile/create");
-         } else {
-            router.replace("/mover-search");
-         }
-      }, 100);
-   }, [formState, login, router]);
+      if (!rawUser.isProfileCompleted) {
+         console.log("확인1: ", rawUser);
+         router.replace("/profile/create");
+      } else {
+         console.log("확인2: ", rawUser);
+         router.replace("/mover-search");
+      }
+   }, [formState?.accessToken, login]);
 
    // 본문
    return (

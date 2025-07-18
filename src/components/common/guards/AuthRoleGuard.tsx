@@ -3,6 +3,7 @@
 import { useAuth } from "@/context/AuthContext";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { IoCloseOutline } from "react-icons/io5";
 
 export default function AuthRoleGuard({
    children,
@@ -37,6 +38,7 @@ export default function AuthRoleGuard({
             clientOnlyPaths.some((path) => pathname.startsWith(path)) &&
             user.userType !== "client"
          ) {
+            console.log("라우트 가드 실행됨11");
             router.push("/mover-search");
             return;
          }
@@ -45,6 +47,7 @@ export default function AuthRoleGuard({
             moverOnlyPaths.some((path) => pathname.startsWith(path)) &&
             user.userType !== "mover"
          ) {
+            console.log("라우트 가드 실행됨22");
             router.push("/mover-search");
             return;
          }
