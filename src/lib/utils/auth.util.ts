@@ -1,5 +1,5 @@
 import { BASE_URL } from "../api/fetch-client";
-import { getServerSideToken } from "./getServerSideToken.util";
+import serverToken from "../actions/auth/auth";
 
 // ✅ 토큰 설정
 export const accessTokenSettings = {
@@ -22,7 +22,7 @@ export const accessTokenSettings = {
    // ★ 토큰을 가져옴
    get: (type = "accessToken") => {
       if (typeof window === "undefined") {
-         return getServerSideToken(type);
+         return serverToken.get(type);
       }
 
       // 로그인한 상태면 토큰 가져옴 (브라우저 환경)
@@ -41,7 +41,7 @@ export const accessTokenSettings = {
 
       //서버 환경의 경우
       if (typeof document === "undefined") {
-         return getServerSideToken("accessToken");
+         return serverToken.get("accessToken");
       }
 
       return null; // 로그인 안 했으면 토큰 안 가져옴

@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 export default function ClientLoginForm() {
    // 상태 모음
-   const { login } = useAuth();
+   const { setAuth: login } = useAuth();
    const router = useRouter();
 
    const [formState, formAction, isPending] = useActionState(

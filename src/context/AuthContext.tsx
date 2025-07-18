@@ -19,7 +19,7 @@ import { delay } from "../../delay";
 interface AuthContextType {
    user: User | null;
    isLoading: boolean;
-   login: (user: User, accessToken: string) => void;
+   setAuth: (user: User, accessToken: string) => void;
    logout: () => void;
    refreshUser: () => Promise<void>;
    setUser: React.Dispatch<React.SetStateAction<User | null>>;
@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    const [user, setUser] = useState<User | null>(null);
    const [isLoading, setIsLoading] = useState(true); // 기본값 true로 시작
 
-   const login = useCallback((user: User, accessToken: string) => {
+   const setAuth = useCallback((user: User, accessToken: string) => {
       accessTokenSettings.set(accessToken);
       setUser(user);
    }, []);
@@ -77,12 +77,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       () => ({
          user,
          isLoading,
-         login,
+         setAuth: setAuth,
          logout,
          refreshUser,
          setUser,
       }),
-      [user, isLoading, login, logout, refreshUser, setUser],
+      [user, isLoading, setAuth, logout, refreshUser, setUser],
    );
 
    if (isLoading) return <AuthSpinner />;
