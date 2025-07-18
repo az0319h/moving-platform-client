@@ -5,7 +5,7 @@ import MoverProfile from "@/components/common/profile/MoverProfile";
 import MoveChip from "@/components/common/chips/MoveChip";
 import { useMover } from "@/context/MoverContext";
 
-import { accessTokenSettings } from "@/lib/utils/auth.util";
+import { tokenSettings } from "@/lib/utils/auth.util";
 import type { Mover } from "@/lib/types/mover.types";
 import { validateServiceTypes } from "@/lib/utils/moveChip.util";
 
@@ -24,7 +24,7 @@ export default function DriverCard({ mover }: DriverCardProps) {
    const handleLikedClick = async (e: React.MouseEvent) => {
       e.stopPropagation(); // ✅ 클릭 전파 방지
 
-      const token = accessTokenSettings.get();
+      const token = tokenSettings.get();
       if (!token) {
          alert("로그인이 필요합니다.");
          return;

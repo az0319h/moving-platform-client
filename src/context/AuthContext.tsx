@@ -3,7 +3,7 @@
 import AuthSpinner from "@/components/spinner/AuthSpinner";
 import authApi from "@/lib/api/auth.api";
 import { User } from "@/lib/types/auth.types";
-import { accessTokenSettings } from "@/lib/utils/auth.util";
+import { tokenSettings } from "@/lib/utils/auth.util";
 import isFetchError from "@/lib/utils/fetch-error.util";
 import {
    createContext,
@@ -34,19 +34,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    const [isLoading, setIsLoading] = useState(true); // 기본값 true로 시작
 
    const setAuth = useCallback((user: User, accessToken: string) => {
-      accessTokenSettings.set(accessToken);
+      tokenSettings.set(accessToken);
       setUser(user);
    }, []);
 
    const logout = useCallback(() => {
       setUser(null);
-      accessTokenSettings.clear();
+      tokenSettings.clear();
       location.href = "/sign-in/client"; // 임시
    }, [setUser]);
 
    const refreshUser = useCallback(async () => {
       setIsLoading(true);
-      if (!accessTokenSettings.get()) {
+      if (!tokenSettings.get()) {
          setUser(null);
          setIsLoading(false);
          return;
@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
          console.error("사용자 정보 호출 실패: ", error);
          if (isFetchError(error) && error.status === 401) {
             setUser(null);
-            accessTokenSettings.clear();
+            tokenSettings.clear();
          }
       } finally {
          setIsLoading(false);
