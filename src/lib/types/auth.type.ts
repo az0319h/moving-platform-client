@@ -1,3 +1,5 @@
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+
 // ✅ userType
 export type UserType = "client" | "mover";
 
@@ -61,6 +63,16 @@ export interface SignUpFormState {
    phone: string;
    password: string;
    passwordConfirmation: string;
+}
+
+//회원가입 컴포넌트 props 타입 (react-hook-form 적용)
+export interface AuthInputProps<T extends FieldValues> {
+   name: Path<T>;
+   label: string;
+   type?: "text" | "email" | "password";
+   placeholder: string;
+   register: UseFormRegister<T>;
+   error?: string;
 }
 
 // 오류 상태
