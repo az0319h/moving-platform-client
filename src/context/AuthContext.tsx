@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    const [user, setUser] = useState<User | null>(null);
    const [isLoading, setIsLoading] = useState(true); // 기본값 true로 시작
 
-   const setAuth = useCallback((user: User, accessToken: string) => {
+   const setLoginUser = useCallback((user: User, accessToken: string) => {
       tokenSettings.set(accessToken);
       setUser(user);
    }, []);
@@ -41,11 +41,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    const logout = useCallback(() => {
       setUser(null);
       tokenSettings.clear();
-      location.href = "/sign-in/client"; // 임시
+      location.href = "/mover-search";
    }, [setUser]);
 
    const refreshUser = useCallback(async () => {
       setIsLoading(true);
+
       if (!tokenSettings.get()) {
          setUser(null);
          setIsLoading(false);
@@ -54,11 +55,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       try {
          await delay(1000);
+
          const response = await authApi.getMe();
+
          if (response?.user) setUser(response.user);
          else setUser(null);
       } catch (error) {
          console.error("사용자 정보 호출 실패: ", error);
+
+         // 토큰 날아갔을 때
          if (isFetchError(error) && error.status === 401) {
             setUser(null);
             tokenSettings.clear();
@@ -77,14 +82,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       () => ({
          user,
          isLoading,
-         setAuth: setAuth,
+         setAuth: setLoginUser,
          logout,
          refreshUser,
          setUser,
       }),
-      [user, isLoading, setAuth, logout, refreshUser, setUser],
+      [user, isLoading, setLoginUser, logout, refreshUser, setUser],
    );
 
+   // 로딩 시 불러올 화면
    if (isLoading) return <AuthSpinner />;
 
    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
