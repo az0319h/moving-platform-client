@@ -15,7 +15,7 @@ export default function AuthInput<T extends FieldValues>({
 }: AuthInputProps<T>) {
    return (
       <section className="flex w-full flex-col gap-2 lg:gap-4">
-         <label htmlFor={name}>{label}</label>
+         <label htmlFor={String(name)}>{label}</label>
          <input
             type={type}
             placeholder={placeholder}

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import AuthInput from "./AuthInput";
 import PasswordInput from "./PasswordInput";
 import SolidButton from "../common/buttons/SolidButton";
@@ -12,12 +12,12 @@ import { SignupFormValues } from "@/lib/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpFormSchema } from "@/lib/validations/auth.schemas";
-import { useMutation } from "@tanstack/react-query";
-import signupMover from "@/lib/api/authMover.api";
+import { defaultFetch } from "@/lib/api/fetch-client";
 
 export default function MoverSignUpForm() {
    const router = useRouter();
    const { login } = useAuth();
+   const [isLoading, setIsLoading] = useState(false);
 
    const {
       register,
@@ -29,32 +29,51 @@ export default function MoverSignUpForm() {
       mode: "onChange",
    });
 
-   const { mutate, isPending } = useMutation({
-      mutationFn: signupMover, //fetch 보내는 api쪽 함수
-      onSuccess: (data) => {
-         if (data.success && data.accessToken && data.user) {
-            login(data.user, data.accessToken);
-            router.push("/profile/create");
-         }
-      },
-      onError: (error) => {
-         const customError = error as { fieldErrors?: Record<string, string> };
+   const onSubmit = async (data: SignupFormValues) => {
+      setIsLoading(true);
 
-         if (customError?.fieldErrors) {
-            Object.entries(customError.fieldErrors).forEach(
-               ([key, message]) => {
-                  setError(key as keyof SignupFormValues, {
-                     type: "server",
-                     message: String(message),
-                  });
-               },
-            );
-         }
-      },
-   });
+      try {
+         const res = await defaultFetch("/auth/signup/mover", {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+         });
 
-   const onSubmit = (data: SignupFormValues) => {
-      mutate(data);
+         if (res.data.accessToken && res.data.user) {
+            login(res.data.user, res.data.accessToken);
+            router.push("/profile/create"); //디버깅: 프로필로 이동하도록 수정해야함
+         }
+      } catch (error) {
+         console.error("기사님 회원가입 실패: ", error);
+
+         //디버깅: 타입 밖으로 빼기
+         const customError = error as {
+            status?: number;
+            body: {
+               message?: string;
+               data?: {
+                  email?: string;
+                  phone?: string;
+                  [key: string]: string | undefined;
+               };
+            };
+         };
+
+         if (customError?.status) {
+            Object.entries(customError.body.data!).forEach(([key, message]) => {
+               setError(key as keyof SignupFormValues, {
+                  type: "server",
+                  message: String(message),
+               });
+            });
+         } else {
+            console.error("예상치 못한 에러: ", customError?.body.message);
+         }
+      } finally {
+         setIsLoading(false);
+      }
    };
 
    return (
@@ -62,7 +81,7 @@ export default function MoverSignUpForm() {
          onSubmit={handleSubmit(onSubmit)}
          className="flex w-full flex-col gap-4"
       >
-         <AuthInput
+         <AuthInput<SignupFormValues>
             name="name"
             label="이름"
             type="text"
@@ -70,7 +89,7 @@ export default function MoverSignUpForm() {
             register={register}
             error={errors.name?.message}
          />
-         <AuthInput
+         <AuthInput<SignupFormValues>
             name="email"
             label="이메일"
             type="email"
@@ -78,7 +97,7 @@ export default function MoverSignUpForm() {
             register={register}
             error={errors.email?.message}
          />
-         <AuthInput
+         <AuthInput<SignupFormValues>
             name="phone"
             label="전화번호"
             type="text"
@@ -86,7 +105,7 @@ export default function MoverSignUpForm() {
             register={register}
             error={errors.phone?.message}
          />
-         <PasswordInput
+         <PasswordInput<SignupFormValues>
             name="password"
             label="비밀번호"
             type="password"
@@ -94,18 +113,18 @@ export default function MoverSignUpForm() {
             register={register}
             error={errors.password?.message}
          />
-         <PasswordInput
-            name="password"
-            label="비밀번호"
+         <PasswordInput<SignupFormValues>
+            name="passwordConfirmation"
+            label="비밀번호 확인"
             type="password"
-            placeholder="비밀번호를 입력해 주세요"
+            placeholder="비밀번호를 한번 더 입력해 주세요"
             register={register}
-            error={errors.password?.message}
+            error={errors.passwordConfirmation?.message}
          />
 
          <section className="mt-4 lg:mt-10">
-            <SolidButton type="submit" disabled={!isValid || isPending}>
-               {isPending ? "로딩 중..." : "시작하기"}
+            <SolidButton type="submit" disabled={!isValid || isLoading}>
+               {isLoading ? "로딩 중..." : "시작하기"}
             </SolidButton>
             <div className="mt-4 flex items-center justify-center gap-1 lg:mt-8 lg:gap-2">
                <p className="text-black-100 text-12-regular lg:text-20-regular">
