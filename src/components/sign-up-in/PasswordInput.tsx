@@ -1,71 +1,32 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ErrorText from "./ErrorText";
 import Image from "next/image";
 import openedEye from "@/assets/images/visibilityIcon.svg";
 import closedEye from "@/assets/images/visibilityOffIcon.svg";
-import { AuthValidationResult } from "@/lib/types/auth.types";
 
 interface Props {
-   type: "text" | "password";
    name: string;
    label: string;
    placeholder: string;
-   validator?: (value: string) => AuthValidationResult;
-   onValidChange?: (key: string, isValid: boolean) => void;
-   onValueChange?: (key: string, value: string) => void;
-   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-   serverError?: string;
+   value: string;
+   onChange: (key: string, value: string) => void;
+   error?: string;
 }
 
 export default function PasswordInput({
    name,
    label,
-   validator,
+   value,
    placeholder,
-   onValidChange,
-   onValueChange,
    onChange,
-   serverError,
+   error,
 }: Props) {
+   // 아이콘으로 비밀번호 <-> 글자 처리
    const [isVisible, setIsVisible] = useState(false);
-   const [value, setValue] = useState<string>("");
-   const [clientError, setClientError] = useState("");
 
-   // type="password" <-> "text"
    const toggleEyeIcon = () => setIsVisible((prev) => !prev);
-
-   // ✅ 값과 errorText 변경
-   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value;
-      setValue(newValue);
-
-      if (onChange) onChange(e);
-
-      if (validator) {
-         const result = validator(newValue);
-         onValueChange?.(name, newValue);
-
-         if (result.success) {
-            onValidChange?.(name, true);
-            setClientError("");
-         } else {
-            onValidChange?.(name, false);
-            setClientError(result.message);
-         }
-      }
-   };
-
-   // ✅ 백엔드에서 받는 오류 메시지
-   useEffect(() => {
-      if (serverError) {
-         setClientError("");
-      }
-   }, [serverError]);
-
-   // 표시할 메시지 결정 (서버 우선)
-   const displayError = serverError || clientError;
 
    return (
       <section className="flex w-full flex-col gap-2 lg:gap-4">
@@ -78,8 +39,8 @@ export default function PasswordInput({
                name={name}
                value={value}
                placeholder={placeholder}
-               onChange={handleChange}
-               className={`${displayError ? "border-secondary-red-200 focus:border-secondary-red-200" : "border-line-200 focus:border-primary-blue-300"} text-black-400 h-14 w-full rounded-2xl border bg-white p-3.5 lg:h-16`}
+               onChange={(e) => onChange(name, e.target.value)}
+               className={`${error ? "border-secondary-red-200 focus:border-secondary-red-200" : "border-line-200 focus:border-primary-blue-300"} text-black-400 h-14 w-full rounded-2xl border bg-white p-3.5 lg:h-16`}
             />
             {/* 눈 아이콘 */}
             <button
@@ -96,7 +57,7 @@ export default function PasswordInput({
             </button>
          </div>
 
-         {displayError && <ErrorText error={displayError} />}
+         {error && <ErrorText error={error} />}
       </section>
    );
 }

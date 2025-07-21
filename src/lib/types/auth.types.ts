@@ -54,7 +54,7 @@ export type AuthValidation = {
    accessToken?: string;
 };
 
-// 회원가입 양식
+// ✅ 회원가입 양식
 export interface SignUpFormState {
    name: string;
    email: string;
@@ -62,6 +62,21 @@ export interface SignUpFormState {
    password: string;
    passwordConfirmation: string;
 }
+
+export type SignUpFields =
+   | "name"
+   | "email"
+   | "phone"
+   | "password"
+   | "passwordConfirmation";
+
+// ✅ 로그인 양식
+export interface LoginFormState {
+   email: string;
+   password: string;
+}
+
+export type LoginFields = "email" | "password";
 
 // 오류 상태
 export interface ErrorsState {

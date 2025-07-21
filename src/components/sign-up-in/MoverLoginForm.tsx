@@ -60,12 +60,12 @@ export default function MoverLoginForm() {
          <AuthInput
             name="email"
             label="이메일"
-            validator={validateAuthEmail}
+            value={validateAuthEmail}
             type="email"
             placeholder="이메일을 입력해 주세요"
             onValidChange={handleValidateChange}
-            onValueChange={handleValueChange}
-            serverError={formState?.fieldErrors?.email}
+            onChange={handleValueChange}
+            error={formState?.fieldErrors?.email}
          />
          <PasswordInput
             name="password"
@@ -74,8 +74,8 @@ export default function MoverLoginForm() {
             type="password"
             placeholder="비밀번호를 입력해 주세요"
             onValidChange={handleValidateChange}
-            onValueChange={handleValueChange}
-            serverError={formState?.fieldErrors?.password}
+            onChange={handleValueChange}
+            error={formState?.fieldErrors?.password}
          />
 
          {/* 로그인 버튼 */}

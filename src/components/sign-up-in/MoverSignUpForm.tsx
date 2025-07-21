@@ -101,31 +101,31 @@ export default function MoverSignUpForm() {
          <AuthInput
             name="name"
             label="이름"
-            validator={validateAuthName}
+            value={validateAuthName}
             type="text"
             placeholder="성함을 입력해 주세요"
             onValidChange={handleValidityChange}
-            onValueChange={handleValueChange}
+            onChange={handleValueChange}
          />
          <AuthInput
             name="email"
             label="이메일"
-            validator={validateAuthEmail}
+            value={validateAuthEmail}
             type="email"
             placeholder="이메일을 입력해 주세요"
             onValidChange={handleValidityChange}
-            onValueChange={handleValueChange}
-            serverError={formState?.fieldErrors?.email}
+            onChange={handleValueChange}
+            error={formState?.fieldErrors?.email}
          />
          <AuthInput
             name="phone"
             label="전화번호"
-            validator={validateAuthPhone}
+            value={validateAuthPhone}
             type="text"
             placeholder="숫자만 입력해 주세요"
             onValidChange={handleValidityChange}
-            onValueChange={handleValueChange}
-            serverError={formState?.fieldErrors?.phone}
+            onChange={handleValueChange}
+            error={formState?.fieldErrors?.phone}
          />
          <PasswordInput
             name="password"
@@ -135,7 +135,7 @@ export default function MoverSignUpForm() {
             placeholder="비밀번호를 입력해 주세요"
             onValidChange={handleValidityChange}
             // onChange={handleCheckPasswordChange}
-            onValueChange={handleValueChange}
+            onChange={handleValueChange}
          />
          <PasswordInput
             name="passwordConfirmation"
@@ -144,7 +144,7 @@ export default function MoverSignUpForm() {
             type="password"
             placeholder="비밀번호를 다시 한번 입력해 주세요"
             onValidChange={handleValidityChange}
-            onValueChange={handleValueChange}
+            onChange={handleValueChange}
          />
 
          {/* 회원가입 버튼 */}
