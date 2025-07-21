@@ -14,7 +14,7 @@ const rawMoverBasicInfoSchema = {
 };
 
 //refine 로직 때문에 분리 (cheackNewPassword)
-export const moverBasicInfoSchema = z
+export const MoverBasicInfoSchema = z
    .object(rawMoverBasicInfoSchema)
    .refine((data) => data.newPassword === data.newPasswordConfirmation, {
       path: ["newPasswordConfirmation"],
@@ -31,4 +31,4 @@ export const basicInfoSchema = {
    newPasswordConfirmation: rawMoverBasicInfoSchema.newPasswordConfirmation,
 };
 
-export type MoverBasicInfoInput = z.infer<typeof moverBasicInfoSchema>;
+export type MoverBasicInfoInput = z.infer<typeof MoverBasicInfoSchema>;
