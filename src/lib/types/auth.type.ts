@@ -1,5 +1,4 @@
 import { UseFormRegister, FieldValues, Path } from "react-hook-form";
-import { SigninFormValues } from "./moverAuth.types";
 
 // ✅ userType
 export type UserType = "client" | "mover";
