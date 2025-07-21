@@ -25,7 +25,7 @@ interface AuthContextType {
    setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-//  context 생성
+// ✅ context 생성
 const AuthContext = createContext<AuthContextType | null>(null);
 
 // ✅ context 값 설정
@@ -101,7 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-// context 값 불러옴
+// ✅ context 값 불러옴
 export function useAuth() {
    const context = useContext(AuthContext);
    if (!context)

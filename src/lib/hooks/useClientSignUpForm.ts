@@ -36,11 +36,10 @@ export default function useClientSignUpForm() {
             body: JSON.stringify(data),
          });
 
-         // if (res.data.user && res.data.accessToken) {
-         //    await getUser(res.data.user, res.data.accessToken);
-         // }
-
-         router.replace("/sign-in/client");
+         if (res.data.user && res.data.accessToken) {
+            await getUser(res.data.user, res.data.accessToken);
+            router.replace("/profile/create");
+         }
       } catch (error) {
          console.error("일반 회원가입 실패: ", error);
 
