@@ -2,7 +2,8 @@
 // import { ValidationResult } from "@/lib/types/profile.types";
 // import { basicInfoSchema } from "./basicInfo.schemas";
 
-// function validateField( //디버깅
+//디버깅
+// function validateField(
 //    schema: ZodType,
 //    value: string,
 //    successMsg: string,

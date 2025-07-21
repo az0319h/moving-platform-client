@@ -43,7 +43,7 @@ export default function MoverSignUpForm() {
 
          if (res.data.accessToken && res.data.user) {
             login(res.data.user, res.data.accessToken);
-            router.push("/profile/create"); //디버깅: 프로필로 이동하도록 수정해야함
+            router.push("/profile/create"); //TODO: 프로필로 이동하도록 수정해야함
          }
       } catch (error) {
          console.error("기사님 회원가입 실패: ", error);

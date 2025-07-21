@@ -51,9 +51,6 @@ export default function BasicInfoForms() {
             body: JSON.stringify(data),
          });
 
-         //디버깅
-         console.log("ㄹ허누ㅏㅓㄹㄴ!!!기본정보 수정의 응답", res);
-
          if (res.data.accessToken && res.data.user) {
             router.push("/dashboard"); //TODO: 수정사항 repatch
          }
@@ -91,7 +88,7 @@ export default function BasicInfoForms() {
 
                <hr className="p-o border-line-100 my-8 border-t" />
 
-               <BasicInputField
+               <BasicInputField<MoverBasicInfoInput>
                   name="email"
                   text="이메일"
                   placeholder="moving.@email.com"
@@ -101,7 +98,7 @@ export default function BasicInfoForms() {
 
                <hr className="p-o border-line-100 my-8 border-t" />
 
-               <BasicInputField
+               <BasicInputField<MoverBasicInfoInput>
                   name="phone"
                   text="전화번호"
                   placeholder="01012345678"
@@ -113,7 +110,7 @@ export default function BasicInfoForms() {
             <hr className="p-o border-line-100 my-8 border-t lg:hidden" />
 
             <div className="flex-1">
-               <SecretInputField
+               <SecretInputField<MoverBasicInfoInput>
                   name="existedPassword"
                   text="현재 비밀번호"
                   placeholder="현재 비밀번호를 입력해주세요"
@@ -123,7 +120,7 @@ export default function BasicInfoForms() {
 
                <hr className="p-o border-line-100 my-8 border-t" />
 
-               <SecretInputField
+               <SecretInputField<MoverBasicInfoInput>
                   name="newPassword"
                   text="새 비밀번호"
                   placeholder="새 비밀번호를 입력해주세요"
@@ -133,8 +130,8 @@ export default function BasicInfoForms() {
 
                <hr className="p-o border-line-100 my-8 border-t" />
 
-               <SecretInputField
-                  name="newPassword"
+               <SecretInputField<MoverBasicInfoInput>
+                  name="newPasswordConfirmation"
                   text="새 비밀번호 확인"
                   placeholder="새 비밀번호를 다시 한번 입력해주세요"
                   register={register}

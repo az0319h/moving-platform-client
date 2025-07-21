@@ -34,7 +34,7 @@ function SecretInputField<T extends FieldValues>({
             className="absolute lg:top-16.5 lg:right-3"
             src={isVisible ? visibilityOn : visibilityOff}
             alt={isVisible ? "비밀번호 보기" : "비밀번호 숨김"}
-            onClick={() => setIsVisible((prev) => !prev)}
+            onClick={toggleEyeIcon}
          />
 
          {error && <ErrorText error={error} />}
