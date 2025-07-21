@@ -1,34 +1,36 @@
-import isFetchError from "../utils/fetch-error.util";
-import { tokenFetch } from "./fetch-client";
+import { defaultFetch, tokenFetch } from "./fetch-client";
 
 const authApi = {
-   // signUp: (name,),
-
-   getMe: async () => {
-      try {
-         const response = await tokenFetch("/auth", {
-            method: "GET",
-            credentials: "include",
-            cache: "no-store",
-         });
-
-         if (response?.user) {
-            console.log("auth.api 응답: ", response.user);
-            return { user: response.user };
-         }
-
-         return null;
-      } catch (error: unknown) {
-         console.error("사용자 정보 api 호출 실패", error);
-
-         // 정상적인 로그아웃
-         if (isFetchError(error) && error.status === 401) {
-            return null;
-         }
-
-         throw error;
-      }
+   // 회원가입
+   clientSignUp: (
+      name: string,
+      email: string,
+      phone: string,
+      password: string,
+      passwordConfirmation: string,
+   ) => {
+      defaultFetch("/auth/signup/client", {
+         method: "POST",
+         body: JSON.stringify({
+            name,
+            email,
+            phone,
+            password,
+            passwordConfirmation,
+         }),
+      });
    },
+
+   // 로그인
+   clientLogin: (email: string, password: string) => {
+      defaultFetch("/auth/signin/client", {
+         method: "POST",
+         body: JSON.stringify({ email, password }),
+      });
+   },
+
+   // 사용자 호출
+   getMe: async () => await tokenFetch("/auth"),
 };
 
 export default authApi;

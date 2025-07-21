@@ -14,7 +14,7 @@ export const tokenSettings = {
          return setServerToken(accessToken);
       }
 
-      // ★ 브라우저 환경일 때 토큰 본문만 가져옴
+      // ★ 브라우저 환경일 때
       const token = JSON.parse(atob(accessToken.split(".")[1]));
 
       // 만료 시간 설정

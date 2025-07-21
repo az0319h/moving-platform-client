@@ -34,13 +34,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    const [isLoading, setIsLoading] = useState(true); // 기본값 true로 시작
 
    const getUser = useCallback((user: User, accessToken: string) => {
-      tokenSettings.set(accessToken);
-      setUser(user);
+      try {
+         tokenSettings.set(accessToken);
+         setUser(user);
+      } catch (error) {
+         console.error("사용자 정보를 가져오는 데 실패했습니다.");
+         setUser(null);
+      }
    }, []);
 
    const logout = useCallback(() => {
-      setUser(null);
       tokenSettings.clear();
+      setUser(null);
       location.href = "/mover-search";
    }, [setUser]);
 

@@ -14,7 +14,7 @@ import { User } from "@/lib/types";
 
 export default function MoverLoginForm() {
    const router = useRouter();
-   const { getUser: login } = useAuth();
+   const { getUser } = useAuth();
 
    const [formState, moverFormAction, isPending] = useActionState(
       createMoverLocalLoginAction,
@@ -50,10 +50,10 @@ export default function MoverLoginForm() {
       if (formState?.success && formState.user && formState?.accessToken) {
          const rawUser = formState.user as User;
 
-         login(rawUser, formState.accessToken);
+         getUser(rawUser, formState.accessToken);
          router.push("/profile/create");
       }
-   }, [formState, login, router]);
+   }, [formState, getUser, router]);
 
    return (
       <form action={moverFormAction} className="flex w-full flex-col gap-4">

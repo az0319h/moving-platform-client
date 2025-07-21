@@ -37,7 +37,6 @@ export default async function createClientLocalLoginAction(
          method: "POST",
          body: JSON.stringify(validationResult.data),
       });
-      console.log("!!!!! :", response.data.clientInfo);
 
       // 성공 응답
       return {

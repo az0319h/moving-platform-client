@@ -19,7 +19,7 @@ import createMoverLocalSignupAction from "@/lib/actions/auth/create-mover-local-
 
 export default function MoverSignUpForm() {
    const router = useRouter();
-   const { getUser: login } = useAuth();
+   const { getUser } = useAuth();
 
    const [formState, MoverFormAction, isPending] = useActionState(
       createMoverLocalSignupAction,
@@ -91,10 +91,10 @@ export default function MoverSignUpForm() {
       if (formState?.success && formState.accessToken && formState.user) {
          const rawUser = formState.user as User;
 
-         login(rawUser, formState.accessToken);
+         getUser(rawUser, formState.accessToken);
          router.push("/profile/create");
       }
-   }, [formState, login, router]);
+   }, [formState, getUser, router]);
 
    return (
       <form action={MoverFormAction} className="flex w-full flex-col gap-4">

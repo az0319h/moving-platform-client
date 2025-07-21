@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 export default function ClientLoginForm() {
    // 상태 모음
-   const { getUser: login } = useAuth();
+   const { getUser } = useAuth();
    const router = useRouter();
 
    const [formState, formAction, isPending] = useActionState(
@@ -53,7 +53,7 @@ export default function ClientLoginForm() {
 
       // 2. 로그인함
       const rawUser = formState.user as Client;
-      login(rawUser, formState.accessToken);
+      getUser(rawUser, formState.accessToken);
 
       if (!rawUser.isProfileCompleted) {
          console.log("확인1: ", rawUser);
@@ -62,7 +62,7 @@ export default function ClientLoginForm() {
          console.log("확인2: ", rawUser);
          router.replace("/mover-search");
       }
-   }, [formState?.accessToken, login]);
+   }, [formState?.accessToken, getUser]);
 
    // 본문
    return (
