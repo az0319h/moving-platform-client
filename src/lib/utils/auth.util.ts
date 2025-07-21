@@ -1,5 +1,9 @@
 import { BASE_URL } from "../api/fetch-client";
-import serverToken from "./server-token.util";
+import {
+   clearServerToken,
+   getServerToken,
+   setServerToken,
+} from "./server-token.util";
 
 // 종합 토큰 설정
 export const tokenSettings = {
@@ -7,7 +11,7 @@ export const tokenSettings = {
    set: (accessToken: string) => {
       // ★ 서버 환경일 때
       if (typeof window === "undefined") {
-         return serverToken.set(accessToken);
+         return setServerToken(accessToken);
       }
 
       // ★ 브라우저 환경일 때 토큰 본문만 가져옴
@@ -25,7 +29,7 @@ export const tokenSettings = {
    get: (cookieName = "accessToken") => {
       // ★ 서버 환경일 때
       if (typeof window === "undefined") {
-         return serverToken.get(cookieName);
+         return getServerToken(cookieName);
       }
 
       // ★ 브라우저 환경일 때
@@ -46,7 +50,7 @@ export const tokenSettings = {
    clear: async () => {
       // ★ 서버 환경일 때
       if (typeof window === "undefined") {
-         return await serverToken.clear();
+         return await clearServerToken();
       }
 
       // ★ 브라우저 환경일 때

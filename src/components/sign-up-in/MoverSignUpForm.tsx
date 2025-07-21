@@ -19,7 +19,7 @@ import createMoverLocalSignupAction from "@/lib/actions/auth/create-mover-local-
 
 export default function MoverSignUpForm() {
    const router = useRouter();
-   const { setAuth: login } = useAuth();
+   const { getUser: login } = useAuth();
 
    const [formState, MoverFormAction, isPending] = useActionState(
       createMoverLocalSignupAction,

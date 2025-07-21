@@ -19,7 +19,7 @@ import { delay } from "../../delay";
 interface AuthContextType {
    user: User | null;
    isLoading: boolean;
-   setAuth: (user: User, accessToken: string) => void;
+   getUser: (user: User, accessToken: string) => void;
    logout: () => void;
    refreshUser: () => Promise<void>;
    setUser: React.Dispatch<React.SetStateAction<User | null>>;
@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    const [user, setUser] = useState<User | null>(null);
    const [isLoading, setIsLoading] = useState(true); // 기본값 true로 시작
 
-   const setLoginUser = useCallback((user: User, accessToken: string) => {
+   const getUser = useCallback((user: User, accessToken: string) => {
       tokenSettings.set(accessToken);
       setUser(user);
    }, []);
@@ -82,12 +82,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       () => ({
          user,
          isLoading,
-         setAuth: setLoginUser,
+         getUser,
          logout,
          refreshUser,
          setUser,
       }),
-      [user, isLoading, setLoginUser, logout, refreshUser, setUser],
+      [user, isLoading, getUser, logout, refreshUser, setUser],
    );
 
    // 로딩 시 불러올 화면

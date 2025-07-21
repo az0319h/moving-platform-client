@@ -14,7 +14,7 @@ import { User } from "@/lib/types";
 
 export default function MoverLoginForm() {
    const router = useRouter();
-   const { setAuth: login } = useAuth();
+   const { getUser: login } = useAuth();
 
    const [formState, moverFormAction, isPending] = useActionState(
       createMoverLocalLoginAction,
