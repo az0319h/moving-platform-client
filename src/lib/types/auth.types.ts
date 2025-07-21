@@ -65,9 +65,6 @@ export interface SignUpFormState {
    passwordConfirmation: string;
 }
 
-<<<<<<< HEAD:src/lib/types/auth.type.ts
-//회원가입 컴포넌트 props 타입 (react-hook-form 적용)
-=======
 // ✅ 로그인 양식
 export interface LoginFormState {
    email: string;
@@ -75,7 +72,6 @@ export interface LoginFormState {
 }
 
 // ✅ 인증 컴포넌트 props
->>>>>>> temp:src/lib/types/auth.types.ts
 export interface AuthInputProps<T extends FieldValues> {
    name: Path<T>;
    label: string;
