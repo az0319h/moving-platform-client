@@ -8,7 +8,7 @@ import Link from "next/link";
 
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { SigninFormValues } from "@/lib/types";
+import { AuthFetchError, SigninFormValues } from "@/lib/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginFormSchema } from "@/lib/validations/auth.schemas";
@@ -41,9 +41,6 @@ export default function MoverLoginForm() {
             body: JSON.stringify(data),
          });
 
-         //디버깅
-         console.log("eg러후넝!!디폴트 패치의 응답", res);
-
          if (res.data.accessToken && res.data.user) {
             login(res.data.user, res.data.accessToken);
             router.push("/profile/create"); //디버깅: 프로필로 이동하도록 해결해야함
@@ -51,27 +48,10 @@ export default function MoverLoginForm() {
       } catch (error) {
          console.error("기사님 로그인 실패:", error);
 
-         //디버깅: 타입 밖으로 빼기
-         const customError = error as {
-            status?: number;
-            body: {
-               message?: string;
-               data?: {
-                  email?: string;
-                  password?: string;
-                  [key: string]: string | undefined;
-               };
-            };
-         };
-
-         //디버깅
-         console.log("ㄹ엏ㅇ!!로그인 실패 후 받는 에러", customError);
+         const customError = error as AuthFetchError;
 
          if (customError?.status && customError.body?.data) {
             Object.entries(customError.body.data).forEach(([key, message]) => {
-               //디버깅
-               console.log("setError 호출", { key, message });
-
                setError(key as keyof SigninFormValues, {
                   type: "server",
                   message: String(message),

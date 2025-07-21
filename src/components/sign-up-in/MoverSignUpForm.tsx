@@ -8,7 +8,7 @@ import Link from "next/link";
 
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { SignupFormValues } from "@/lib/types";
+import { AuthFetchError, SignupFormValues } from "@/lib/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpFormSchema } from "@/lib/validations/auth.schemas";
@@ -48,18 +48,7 @@ export default function MoverSignUpForm() {
       } catch (error) {
          console.error("기사님 회원가입 실패: ", error);
 
-         //디버깅: 타입 밖으로 빼기
-         const customError = error as {
-            status?: number;
-            body: {
-               message?: string;
-               data?: {
-                  email?: string;
-                  phone?: string;
-                  [key: string]: string | undefined;
-               };
-            };
-         };
+         const customError = error as AuthFetchError;
 
          if (customError?.status) {
             Object.entries(customError.body.data!).forEach(([key, message]) => {

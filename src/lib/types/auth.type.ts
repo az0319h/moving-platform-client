@@ -1,4 +1,5 @@
 import { UseFormRegister, FieldValues, Path } from "react-hook-form";
+import { SigninFormValues } from "./moverAuth.types";
 
 // ✅ userType
 export type UserType = "client" | "mover";
@@ -94,5 +95,18 @@ export interface FetchError {
    body: {
       message: string;
       [key: string]: unknown;
+   };
+}
+
+export interface AuthFetchError {
+   status?: number;
+   body: {
+      message?: string;
+      data?: {
+         email?: string;
+         password?: string;
+         phone?: string;
+         [key: string]: string | undefined;
+      };
    };
 }
