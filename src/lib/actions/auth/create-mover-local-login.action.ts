@@ -3,7 +3,7 @@
 import { defaultFetch } from "@/lib/api/fetch-client";
 import { AuthActionResult, AuthValidation } from "@/lib/types/auth.types";
 import isFetchError from "@/lib/utils/fetch-error.util";
-import { loginFormSchema } from "@/lib/validations/auth.schemas";
+import { loginFormSchema } from "@/lib/schemas/auth.schemas";
 
 export default async function createMoverLocalLoginAction(
    _: AuthValidation | null,

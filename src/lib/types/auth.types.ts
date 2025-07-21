@@ -1,3 +1,5 @@
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+
 // ✅ userType
 export type UserType = "client" | "mover";
 
@@ -63,20 +65,21 @@ export interface SignUpFormState {
    passwordConfirmation: string;
 }
 
-export type SignUpFields =
-   | "name"
-   | "email"
-   | "phone"
-   | "password"
-   | "passwordConfirmation";
-
 // ✅ 로그인 양식
 export interface LoginFormState {
    email: string;
    password: string;
 }
 
-export type LoginFields = "email" | "password";
+// ✅ 인증 컴포넌트 props
+export interface AuthInputProps<T extends FieldValues> {
+   name: Path<T>;
+   label: string;
+   type?: "text" | "email" | "password";
+   placeholder: string;
+   register: UseFormRegister<T>;
+   error?: string;
+}
 
 // 오류 상태
 export interface ErrorsState {
@@ -97,5 +100,18 @@ export interface FetchError {
    body: {
       message: string;
       [key: string]: unknown;
+   };
+}
+
+export interface AuthFetchError {
+   status?: number;
+   body: {
+      message?: string;
+      data?: {
+         email?: string;
+         password?: string;
+         phone?: string;
+         [key: string]: string | undefined;
+      };
    };
 }

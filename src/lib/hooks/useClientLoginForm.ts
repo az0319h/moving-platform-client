@@ -1,31 +1,70 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-type ErrorText = Record<string, string>;
+import { useAuth } from "@/context/AuthContext";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginFormSchema, LoginFormValues } from "../schemas/auth.schemas";
+import { defaultFetch } from "../api/fetch-client";
+import { AuthFetchError } from "../types";
 
 export default function useClientLoginForm() {
+   // ✅ 상태 모음
    const router = useRouter();
-   const [values, setValues] = useState({
-      email: "",
-      password: "",
+   const { getUser } = useAuth();
+   const [isLoading, setIsLoading] = useState(false);
+
+   // ✅ react-hook-form
+   const {
+      register,
+      handleSubmit,
+      setError,
+      formState: { errors, isValid },
+   } = useForm({
+      mode: "onChange",
+      resolver: zodResolver(loginFormSchema),
    });
-   const [errorText, setErrorText] = useState<Partial<ErrorText>>({});
-   const [isPending, setIsPending] = useState(false);
 
-   const handleChange = (key: string, value: string) => {
-      setValues((prev) => ({ ...prev, [key]: value }));
+   // ✅ 제출
+   const onSubmit = async (data: LoginFormValues) => {
+      setIsLoading(true);
 
-      // 글자 입력하면 오류 메시지 초기화
-      if (errorText[key]) {
-         setErrorText((prev) => ({ ...prev, [key]: "" }));
+      try {
+         const res = await defaultFetch("/auth/signup/client", {
+            method: "POST",
+            body: JSON.stringify(data),
+         });
+
+         if (res.data.user && res.data.accessToken) {
+            getUser(res.data.user, res.data.accessToken);
+            router.replace("/sign-in/client");
+         }
+      } catch (error) {
+         console.error("일반 회원가입 실패: ", error);
+
+         // 오류
+         const customError = error as AuthFetchError;
+
+         if (customError?.status) {
+            Object.entries(customError.body.data!).forEach(([key, message]) => {
+               setError(key as keyof LoginFormValues, {
+                  type: "server",
+                  message: String(message),
+               });
+            });
+         } else {
+            console.error("예상치 못한 오류 발생: ", customError?.body.message);
+         }
+      } finally {
+         setIsLoading(false);
       }
    };
 
    return {
-      values,
-      errorText,
-      isPending,
-
-      handleChange,
+      register,
+      errors,
+      isValid,
+      onSubmit,
+      isLoading,
+      handleSubmit,
    };
 }

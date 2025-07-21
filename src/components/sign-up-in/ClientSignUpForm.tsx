@@ -9,59 +9,55 @@ import useClientSignUpForm from "@/lib/hooks/useClientSignUpForm";
 
 // 여기서부터 시작
 export default function ClientSignUpForm() {
-   const { values, errorText, isPending, handleChange } = useClientSignUpForm();
+   const { register, errors, isValid, isLoading, handleSubmit } =
+      useClientSignUpForm();
 
    // ✅ 본문
    return (
       <form className="flex w-full flex-col gap-4">
          <AuthInput
+            type="text"
             name="name"
             label="이름"
-            value={values.name || ""}
-            type="text"
             placeholder="성함을 입력해 주세요"
-            onChange={handleChange}
-            error={errorText.name || ""}
+            register={register}
+            error={errors.name?.message}
          />
          <AuthInput
+            type="email"
             name="email"
             label="이메일"
-            value={values.email || ""}
-            type="email"
             placeholder="이메일을 입력해 주세요"
-            onChange={handleChange}
-            error={errorText.email || ""}
+            register={register}
+            error={errors.email?.message}
          />
          <AuthInput
+            type="text"
             name="phone"
             label="전화번호"
-            value={values.phone || ""}
-            type="text"
             placeholder="숫자만 입력해 주세요"
-            onChange={handleChange}
-            error={errorText.phone || ""}
+            register={register}
+            error={errors.phone?.message}
          />
          <PasswordInput
             name="password"
             label="비밀번호"
-            value={values.password || ""}
             placeholder="비밀번호를 입력해 주세요"
-            onChange={handleChange}
-            error={errorText.password || ""}
+            register={register}
+            error={errors.password?.message}
          />
          <PasswordInput
             name="passwordConfirmation"
             label="비밀번호 확인"
-            value={values.passwordConfirmation || ""}
             placeholder="비밀번호를 다시 한번 입력해 주세요"
-            onChange={handleChange}
-            error={errorText.passwordConfirmation || ""}
+            register={register}
+            error={errors.passwordConfirmation?.message}
          />
 
          {/* 회원가입 버튼 */}
          <section className="mt-4 lg:mt-10">
-            <SolidButton type="submit" disabled>
-               {isPending ? "로딩 중..." : "시작하기"}
+            <SolidButton type="submit" disabled={!isValid || isLoading}>
+               {isLoading ? "로딩 중..." : "시작하기"}
             </SolidButton>
             <div className="mt-4 flex items-center justify-center gap-1 lg:mt-8 lg:gap-2">
                <p className="text-black-100 text-12-regular lg:text-20-regular">

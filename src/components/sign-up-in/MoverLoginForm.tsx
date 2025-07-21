@@ -6,7 +6,7 @@ import PasswordInput from "./PasswordInput";
 import SolidButton from "../common/buttons/SolidButton";
 import Link from "next/link";
 
-import { validateAuthEmail, validateAuthPassword } from "@/lib/validations";
+import { validateAuthEmail, validateAuthPassword } from "@/lib/schemas";
 import createMoverLocalLoginAction from "@/lib/actions/auth/create-mover-local-login.action";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";

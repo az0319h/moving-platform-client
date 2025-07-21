@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { InputFieldProps } from "@/lib/types/profile.types";
-import { validateDetailDescription } from "@/lib/validations";
+import { validateDetailDescription } from "@/lib/schemas";
 
 //상세 설명 (textArea) input인 경우
 function TextAreaInputField({

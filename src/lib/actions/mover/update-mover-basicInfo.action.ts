@@ -6,7 +6,7 @@ import isFetchError from "@/lib/utils/fetch-error.util";
 import {
    MoverBasicInfoInput,
    moverBasicInfoSchema,
-} from "@/lib/validations/mover/basicInfo/basicInfo.schemas";
+} from "@/lib/schemas/mover/basicInfo/basicInfo.schemas";
 
 export async function updateMoverBasicInfo(
    state: profileState | null,

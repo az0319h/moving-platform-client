@@ -51,3 +51,7 @@ export const loginFormSchema = z.object({
    email: emailSchema,
    password: passwordSchema,
 });
+
+// ✅ 탸입 반출
+export type SignUpFormValues = z.infer<typeof signUpFormSchema>;
+export type LoginFormValues = z.infer<typeof loginFormSchema>;

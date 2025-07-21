@@ -11,7 +11,7 @@ import {
    validateAuthName,
    validateAuthPassword,
    validateAuthPhone,
-} from "@/lib/validations";
+} from "@/lib/schemas";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { AuthValidationResult, User } from "@/lib/types";

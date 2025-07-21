@@ -4,7 +4,7 @@ import { BASE_URL } from "@/lib/api/fetch-client";
 import {
    getCreateReviewPayloadFromForm,
    validateCreateReview,
-} from "@/lib/validations/reviews/review.validations";
+} from "@/lib/schemas/reviews/review.validations";
 
 export async function createReviewAction(
    prevState: { success: boolean; message: string },

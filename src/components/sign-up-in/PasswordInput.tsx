@@ -1,30 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import ErrorText from "./ErrorText";
 import Image from "next/image";
 import openedEye from "@/assets/images/visibilityIcon.svg";
 import closedEye from "@/assets/images/visibilityOffIcon.svg";
+import { AuthInputProps } from "@/lib/types";
+import { FieldValues } from "react-hook-form";
 
-interface Props {
-   name: string;
-   label: string;
-   placeholder: string;
-   value: string;
-   onChange: (key: string, value: string) => void;
-   error?: string;
-}
-
-export default function PasswordInput({
+export default function PasswordInputt<T extends FieldValues>({
    name,
    label,
-   value,
    placeholder,
-   onChange,
+   register,
    error,
-}: Props) {
+}: AuthInputProps<T>) {
    // 아이콘으로 비밀번호 <-> 글자 처리
-   const [isVisible, setIsVisible] = useState(false);
+   const [isVisible, setIsVisible] = React.useState(false);
 
    const toggleEyeIcon = () => setIsVisible((prev) => !prev);
 
@@ -35,13 +27,13 @@ export default function PasswordInput({
          <div className="relative w-full">
             {/* 입력창 */}
             <input
+               id={name}
                type={isVisible ? "text" : "password"}
-               name={name}
-               value={value}
                placeholder={placeholder}
-               onChange={(e) => onChange(name, e.target.value)}
+               {...register(name)}
                className={`${error ? "border-secondary-red-200 focus:border-secondary-red-200" : "border-line-200 focus:border-primary-blue-300"} text-black-400 h-14 w-full rounded-2xl border bg-white p-3.5 lg:h-16`}
             />
+
             {/* 눈 아이콘 */}
             <button
                type="button"
