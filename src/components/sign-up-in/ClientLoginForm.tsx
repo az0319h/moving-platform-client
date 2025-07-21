@@ -14,7 +14,10 @@ export default function ClientLoginForm() {
 
    // 본문
    return (
-      <form className="flex w-full flex-col gap-4">
+      <form
+         onSubmit={handleSubmit(onSubmit)}
+         className="flex w-full flex-col gap-4"
+      >
          <AuthInput
             type="email"
             name="email"

@@ -9,12 +9,15 @@ import useClientSignUpForm from "@/lib/hooks/useClientSignUpForm";
 
 // 여기서부터 시작
 export default function ClientSignUpForm() {
-   const { register, errors, isValid, isLoading, handleSubmit } =
+   const { register, errors, isValid, isLoading, handleSubmit, onSubmit } =
       useClientSignUpForm();
 
    // ✅ 본문
    return (
-      <form className="flex w-full flex-col gap-4">
+      <form
+         onSubmit={handleSubmit(onSubmit)}
+         className="flex w-full flex-col gap-4"
+      >
          <AuthInput
             type="text"
             name="name"

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -29,27 +31,25 @@ export default function useClientLoginForm() {
       setIsLoading(true);
 
       try {
-         const res = await defaultFetch("/auth/signup/client", {
+         const res = await defaultFetch("/auth/signin/client", {
             method: "POST",
             body: JSON.stringify(data),
          });
 
          if (res.data.user && res.data.accessToken) {
-            getUser(res.data.user, res.data.accessToken);
-            router.replace("/sign-in/client");
+            await getUser(res.data.user, res.data.accessToken);
+            router.replace("/mover-search");
          }
       } catch (error) {
-         console.error("일반 회원가입 실패: ", error);
+         console.error("일반 로그인 실패: ", error);
 
-         // 오류
+         // 오류 처리: 메시지로
          const customError = error as AuthFetchError;
 
-         if (customError?.status) {
-            Object.entries(customError.body.data!).forEach(([key, message]) => {
-               setError(key as keyof LoginFormValues, {
-                  type: "server",
-                  message: String(message),
-               });
+         if (customError?.body.message) {
+            setError("email", {
+               type: "server",
+               message: customError.body.message,
             });
          } else {
             console.error("예상치 못한 오류 발생: ", customError?.body.message);

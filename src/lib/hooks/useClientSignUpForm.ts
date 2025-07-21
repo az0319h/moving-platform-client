@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import authApi from "../api/auth.api";
 import { useAuth } from "@/context/AuthContext";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,14 +36,15 @@ export default function useClientSignUpForm() {
             body: JSON.stringify(data),
          });
 
-         if (res.data.user && res.data.accessToken) {
-            getUser(res.data.user, res.data.accessToken);
-            router.replace("/sign-in/client");
-         }
+         // if (res.data.user && res.data.accessToken) {
+         //    await getUser(res.data.user, res.data.accessToken);
+         // }
+
+         router.replace("/sign-in/client");
       } catch (error) {
          console.error("일반 회원가입 실패: ", error);
 
-         // 오류
+         // 오류 처리: 객체로
          const customError = error as AuthFetchError;
 
          if (customError?.status) {
