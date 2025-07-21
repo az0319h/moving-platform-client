@@ -13,7 +13,7 @@ import {
    validateProfileName,
    validateOnelineIntroduction,
    validateServiceType,
-} from "@/lib/validations";
+} from "@/lib/schemas";
 
 function MoverProfileForm() {
    const [, formAction, isPending] = useActionState(createMoverProfile, null);

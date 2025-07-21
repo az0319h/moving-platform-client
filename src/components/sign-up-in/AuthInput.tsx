@@ -17,15 +17,13 @@ export default function AuthInput<T extends FieldValues>({
       <section className="flex w-full flex-col gap-2 lg:gap-4">
          <label htmlFor={String(name)}>{label}</label>
          <input
+            id={name}
             type={type}
-            placeholder={placeholder}
             {...register(name)}
-            className={`${
-               error
-                  ? "border-secondary-red-200 focus:border-secondary-red-200"
-                  : "border-line-200 focus:border-primary-blue-300"
-            } text-black-400 h-14 rounded-2xl border bg-white p-3.5 lg:h-16`}
+            placeholder={placeholder}
+            className={`${error ? "border-secondary-red-200 focus:border-secondary-red-200" : "border-line-200 focus:border-primary-blue-300"} text-black-400 h-14 rounded-2xl border bg-white p-3.5 lg:h-16`}
          />
+
          {error && <ErrorText error={error} />}
       </section>
    );

@@ -11,12 +11,12 @@ import { useAuth } from "@/context/AuthContext";
 import { AuthFetchError, SigninFormValues } from "@/lib/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginFormSchema } from "@/lib/validations/auth.schemas";
 import { defaultFetch } from "@/lib/api/fetch-client";
+import { loginFormSchema } from "@/lib/schemas/auth.schemas";
 
 export default function MoverLoginForm() {
    const router = useRouter();
-   const { login } = useAuth();
+   const { getUser } = useAuth();
    const [isLoading, setIsLoading] = useState(false);
 
    const {
@@ -42,7 +42,7 @@ export default function MoverLoginForm() {
          });
 
          if (res.data.accessToken && res.data.user) {
-            login(res.data.user, res.data.accessToken);
+            getUser(res.data.user, res.data.accessToken);
             router.push("/profile/create"); //디버깅: 프로필로 이동하도록 해결해야함
          }
       } catch (error) {

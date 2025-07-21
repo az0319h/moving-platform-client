@@ -14,7 +14,7 @@ import {
    validateNewPassword,
    validatePhone,
    validateName,
-} from "@/lib/validations";
+} from "@/lib/schemas";
 import { useAuth } from "@/context/AuthContext";
 
 export default function BasicInfoForms() {

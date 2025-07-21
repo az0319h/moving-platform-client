@@ -13,6 +13,8 @@ export default function UnauthOnlyGuard({
 
    useEffect(() => {
       if (!isLoading && user) {
+         console.log("unAuth 라우터 가드");
+
          router.push("/mover-search"); // 로그인했으면 홈으로 이동
       }
    }, [user, isLoading, router]);
