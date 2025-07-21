@@ -1,0 +1,53 @@
+"use client";
+
+import React from "react";
+import Image from "next/image";
+import openedEye from "@/assets/images/visibilityIcon.svg";
+import closedEye from "@/assets/images/visibilityOffIcon.svg";
+import { FieldValues } from "react-hook-form";
+import { AuthInputProps } from "@/lib/types/auth.types";
+import ErrorText from "@/components/common/ErrorText";
+
+export default function PasswordInput<T extends FieldValues>({
+   name,
+   label,
+   placeholder,
+   register,
+   error,
+}: AuthInputProps<T>) {
+   const [isVisible, setIsVisible] = React.useState(false);
+
+   const toggleEyeIcon = () => setIsVisible((prev) => !prev);
+
+   return (
+      <section className="flex w-full flex-col gap-2 lg:gap-4">
+         <label htmlFor={name}>{label}</label>
+
+         <div className="relative w-full">
+            <input
+               id={name}
+               type={isVisible ? "text" : "password"}
+               placeholder={placeholder}
+               {...register(name)}
+               className={`${error ? "border-secondary-red-200 focus:border-secondary-red-200" : "border-line-200 focus:border-primary-blue-300"} text-black-400 h-14 w-full rounded-2xl border bg-white p-3.5 lg:h-16`}
+            />
+
+            {/* 눈 아이콘 */}
+            <button
+               type="button"
+               onClick={toggleEyeIcon}
+               className="absolute top-1/2 right-3 -translate-y-1/2"
+            >
+               <Image //눈 아이콘
+                  src={isVisible ? openedEye : closedEye}
+                  alt="비밀번호 토글 아이콘"
+                  width={24}
+                  height={24}
+               />
+            </button>
+         </div>
+
+         {error && <ErrorText error={error} />}
+      </section>
+   );
+}
