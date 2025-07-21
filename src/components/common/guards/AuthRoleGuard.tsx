@@ -3,7 +3,6 @@
 import { useAuth } from "@/context/AuthContext";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { IoCloseOutline } from "react-icons/io5";
 
 export default function AuthRoleGuard({
    children,

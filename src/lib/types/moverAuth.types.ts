@@ -1,5 +1,5 @@
 import z from "zod";
-import { loginFormSchema, signUpFormSchema } from "../validations/auth.schemas";
+import { loginFormSchema, signUpFormSchema } from "../schemas/auth.schemas";
 
 export interface MoverAuthProps {
    type: "login" | "signup";

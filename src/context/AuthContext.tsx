@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
          tokenSettings.set(accessToken);
          setUser(user);
       } catch (error) {
-         console.error("사용자 정보를 가져오는 데 실패했습니다.");
+         console.error("사용자 정보를 가져오는 데 실패했습니다.", error);
          setUser(null);
       }
    }, []);
