@@ -17,14 +17,6 @@ export default function DriverCard({ mover }: DriverCardProps) {
    const { toggleFavorite } = useMover();
    const router = useRouter();
 
-   // ✅ 디버깅 로그 추가
-   console.log("=== DriverCard 렌더링 ===");
-   console.log("Mover ID:", mover.id);
-   console.log("Mover nickName:", mover.nickName);
-   console.log("Mover isFavorite:", mover.isFavorite);
-   console.log("Mover favoriteCount:", mover.favoriteCount);
-   console.log("typeof mover.isFavorite:", typeof mover.isFavorite);
-   console.log("========================");
 
    const handleCardClick = () => {
       router.push(`/mover-search/${mover.id}`);
