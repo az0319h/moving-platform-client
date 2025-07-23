@@ -14,3 +14,8 @@ export interface Mover {
    reviewCount: number;
    isFavorite?: boolean;
 }
+
+export interface DropdownOption {
+   label: string;
+   value: string;
+}
