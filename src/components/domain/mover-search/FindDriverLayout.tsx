@@ -6,7 +6,7 @@ import FilterAreaServiceBox from "./FilterAreaServiceBox";
 import SearchBar from "./SearchBar";
 import { DropdownOption } from "@/lib/types/mover.types"
 import FavoriteDriverList from "./FavoriteDriverList";
-import { MoverProvider, useMover } from "@/context/MoverContext";
+import { MoverProvider, useMover } from "@/context/mover";
 import {
   AREA_OPTIONS,
   SERVICE_OPTIONS,

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import MoverProfile from "@/components/common/MoverProfile";
 import MoveChip from "@/components/common/MoveChip";
-import { useMover } from "@/context/MoverContext";
+import { useMover } from "@/context/mover";
 
 import { tokenSettings } from "@/lib/utils/auth.util";
 import type { Mover } from "@/lib/types/mover.types";
