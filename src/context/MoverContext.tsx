@@ -1,11 +1,11 @@
 "use client";
 
 import {
-   areaMapping,
    toggleFavoriteMover,
    getMovers,
    GetMoversParams,
-} from "@/lib/api/mover/mover.api";
+} from "@/lib/api/mover";
+import { areaMapping } from "@/constants/mover.constants";
 import { Mover } from "@/lib/types";
 import {
    createContext,

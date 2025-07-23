@@ -19,3 +19,20 @@ export interface DropdownOption {
    label: string;
    value: string;
 }
+
+export interface GetMoversParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  area?: string;
+  serviceType?: string;
+  sortBy?: string;
+}
+
+export interface GetMoversResponse {
+  movers: Mover[];
+  hasMore: boolean;
+  total: number;
+  page: number;
+  limit: number;
+}
