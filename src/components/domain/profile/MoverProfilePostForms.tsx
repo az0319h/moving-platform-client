@@ -14,6 +14,12 @@ export default function MoverProfilePostForm() {
    const { user } = useAuth();
    const router = useRouter();
 
+   //(소셜 로그인의 경우) 기본정보가 없을 수 있어서 리다이렉트 (실명, 전화번호가 nullable임)
+   if (!user?.phone) {
+      alert("이름과 전화번호는 필수 정보입니다. 기본정보 작성을 완료해주세요"); //TODO: 토스트 알람으로 리펙터링
+      router.push("/dashboard/edit-account");
+   }
+
    //프로필 등록을 이미 한 유저의 경우 프로필 수정으로 리다이렉트
    if (user?.isProfileCompleted) {
       alert("이미 프로필이 등록되어 있습니다"); //TODO: 토스트 알람으로 리펙터링
