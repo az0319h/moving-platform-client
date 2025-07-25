@@ -10,7 +10,8 @@ const rawMoverBasicInfoSchema = {
       .string()
       .min(10, "최소 10자리 이상이어야 합니다.")
       .regex(/^\d+$/, "숫자만 입력해주세요."),
-   existedPassword: z.string().min(8, "기존 비밀번호를 입력해주세요."),
+   //디버깅 중 existedPassword: z.string().min(8, "기존 비밀번호를 입력해주세요."),
+   existedPassword: z.string().optional(),
    newPassword: z.string().optional(),
    newPasswordConfirmation: z.string().optional(),
 };

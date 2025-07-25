@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BasicInputField from "./BasicInputField";
 import SecretInputField from "./SecretInputField";
 import { useRouter } from "next/navigation";
@@ -8,12 +8,22 @@ import useMoverBasicInfo from "@/lib/hooks/useMoverBasicInfo";
 import { MoverBasicInfoInput } from "@/lib/schemas/dashboard.schema";
 import SolidButton from "@/components/common/SolidButton";
 import OutlinedButton from "@/components/common/OutlinedButton";
+import { useAuth } from "@/context/AuthContext";
 
 export default function BasicInfoForms() {
    const router = useRouter();
+   const { user } = useAuth();
+   const [isSocial, setIsSocial] = useState(false); // 소셜 인증자들에겐 다른 UI를 보여줌
 
    const { register, errors, isValid, isLoading, handleSubmit, onSubmit } =
       useMoverBasicInfo();
+
+   useEffect(() => {
+      // 소셜 인증자들에겐 다른 UI를 보여줌 (= 비밀번호 input 3개 안보이게)
+      if (!user?.name || !user?.phone) {
+         setIsSocial(true);
+      }
+   }, [user]);
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -51,15 +61,19 @@ export default function BasicInfoForms() {
             <hr className="p-o border-line-100 my-8 border-t lg:hidden" />
 
             <div className="flex-1">
-               <SecretInputField<MoverBasicInfoInput>
-                  name="existedPassword"
-                  text="현재 비밀번호"
-                  placeholder="현재 비밀번호를 입력해주세요"
-                  register={register}
-                  error={errors.existedPassword?.message}
-               />
+               {!isSocial ? (
+                  <>
+                     <SecretInputField<MoverBasicInfoInput>
+                        name="existedPassword"
+                        text="현재 비밀번호"
+                        placeholder="현재 비밀번호를 입력해주세요"
+                        register={register}
+                        error={errors.existedPassword?.message}
+                     />
 
-               <hr className="p-o border-line-100 my-8 border-t" />
+                     <hr className="p-o border-line-100 my-8 border-t" />
+                  </>
+               ) : null}
 
                <SecretInputField<MoverBasicInfoInput>
                   name="newPassword"
@@ -85,7 +99,7 @@ export default function BasicInfoForms() {
 
          <div className="flex flex-col gap-2 lg:mt-16 lg:flex-row-reverse lg:gap-8">
             <SolidButton disabled={!isValid || isLoading} type="submit">
-               {isLoading ? "수정 중..." : "수정하기"}
+               {isLoading ? "수정 중..." : isSocial ? "등록하기" : "수정하기"}
             </SolidButton>
             <OutlinedButton onClick={() => router.push("/dashboard")}>
                취소
