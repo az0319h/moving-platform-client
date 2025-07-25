@@ -118,9 +118,6 @@ export async function tokenFetch(
 
    // ★ 요청
    try {
-      //디버깅
-      console.log("요청 시 보내는 url", url);
-
       let response = await fetch(url, {
          ...options,
          headers,

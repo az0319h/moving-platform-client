@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import AuthInput from "./AuthInput";
 import PasswordInput from "./PasswordInput";
 import SolidButton from "@/components/common/SolidButton";

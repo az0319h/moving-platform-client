@@ -9,7 +9,7 @@ import { BASE_URL, tokenSettings } from "@/lib/utils";
 
 // 간편 로그인
 export default function EasyLoginForm() {
-   //디버깅: 하단 테스트 중
+   //TODO: 삭제 예정
    //    const handleGoogleLogin = () => {
    //       window.location.href = `${BASE_URL}/auth/google`;
    //    };
